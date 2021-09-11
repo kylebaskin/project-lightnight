@@ -6,8 +6,10 @@ from twilio.twiml.voice_response import Gather, VoiceResponse
 
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
-account_sid = os.environ['TWILIO_ACCOUNT_SID']
-auth_token = os.environ['TWILIO_AUTH_TOKEN']
+account_sid = 'AC37f2606a24c4ad673886172e74eee4fe'
+#account_sid = os.environ['TWILIO_ACCOUNT_SID']
+auth_token = '4f1bf484f089b02d9ef8bb645894e4c1'
+#auth_token = os.environ['TWILIO_AUTH_TOKEN']
 client = Client(account_sid, auth_token)
 
 

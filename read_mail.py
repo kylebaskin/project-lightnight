@@ -41,7 +41,7 @@ def getEmails():
 	service = build('gmail', 'v1', credentials=creds)
 
 	# request a list of all the messages
-	result = service.users().messages().list(userId='me').execute()
+	result = service.users().messages().list(maxResults=2, userId='me').execute()
 
 
 	# We can also pass maxResults to get any number of emails. Like this:
@@ -51,6 +51,9 @@ def getEmails():
 
 	# iterate through all the messages
 	for msg in messages:
+
+		# TODO: FIGURE OUT HOW TO CHECK IF A MESSAGE HAS BEEN READ OR NOT - IF IT'S BEEN READ, WE IGNORE THE WARING MESSAGE
+
 		# Get the message from its id
 		txt = service.users().messages().get(userId='me', id=msg['id']).execute()
 
