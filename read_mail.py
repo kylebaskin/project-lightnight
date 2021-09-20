@@ -17,6 +17,8 @@ def getEmails():
 	# If no valid token found, we will create one.
 	creds = None
 
+	hot_words = ["zl-alert!", "zlg-alert!"]
+
 	# The file token.pickle contains the user access token.
 	# Check if it exists
 	if os.path.exists('token.pickle'):
@@ -40,8 +42,8 @@ def getEmails():
 	# Connect to the Gmail API
 	service = build('gmail', 'v1', credentials=creds)
 
-	# request a list of all the messages
-	result = service.users().messages().list(maxResults=2, userId='me').execute()
+	# request a list of all the UNREAD messages
+	result = service.users().messages().list(maxResults=15, userId='me', labelIds='UNREAD').execute()
 
 
 	# We can also pass maxResults to get any number of emails. Like this:
@@ -52,7 +54,6 @@ def getEmails():
 	# iterate through all the messages
 	for msg in messages:
 
-		# TODO: FIGURE OUT HOW TO CHECK IF A MESSAGE HAS BEEN READ OR NOT - IF IT'S BEEN READ, WE IGNORE THE WARING MESSAGE
 
 		# Get the message from its id
 		txt = service.users().messages().get(userId='me', id=msg['id']).execute()
@@ -72,11 +73,13 @@ def getEmails():
 
 
 
+
 			# TODO: do some stuff here to check the subject
-			print(subject.lower().find('=emergency'))
-			if(subject.lower().find('=emergency') != -1):
-				make_a_call.execute()
-				print('calling')
+			#print(subject.lower().find('=emergency'))
+			for phrase in hot_words:
+				if(subject.lower().find(phrase) != -1):
+					make_a_call.execute()
+					print('calling')
 
 
 			# The Body of the message is in Encrypted format. So, we have to decode it.
